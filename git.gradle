@@ -6,7 +6,7 @@ def getPatch() {
     }
     def res = diffOutput.toString()
     if (res.contains('-')) {
-        return res.split('-')[1]
+        return res.split('-')[1].trim()
     } else {
         return '0'
     }

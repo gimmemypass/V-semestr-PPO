@@ -1,5 +1,6 @@
 package com.example.first
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -21,5 +22,7 @@ class KeyboardFragment : Fragment() {
         return inflater.inflate(R.layout.keyboard, null)
     }
 
-
+    override fun onAttach(activity: Activity) {
+        super.onAttach(activity)
+    }
 }

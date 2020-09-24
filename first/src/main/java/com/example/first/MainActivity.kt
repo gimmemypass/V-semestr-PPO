@@ -31,7 +31,6 @@ import kotlinx.android.synthetic.main.keyboard.*
 import kotlinx.android.synthetic.main.text_layout.*
 
 class MainActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnItemSelectedListener {
-    private val units = arrayOf<String>("дюйм в мм", "мм в дюйм", "миля в метры", "метры в мили", "ярд в см", "см в ярды")
     private var mToIn : Boolean = true
     private var coef : Double = getCoef(0)
     private lateinit var clipboard : ClipboardManager
@@ -39,6 +38,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnIt
     private lateinit var adapterCategory : ArrayAdapter<String>
     private lateinit var adapterFirst: ArrayAdapter<String>
     private lateinit var adapterSecond: ArrayAdapter<String>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main)
@@ -236,6 +236,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnIt
         spinnerSecondUnits.setSelection(0)
         spinnerSecondUnits.onItemSelectedListener = this
     }
+
+    
 
 }
 
