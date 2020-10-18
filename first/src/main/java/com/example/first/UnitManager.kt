@@ -1,6 +1,7 @@
 package com.example.first
 
 import kotlin.properties.Delegates
+//enum Category
 
 class UnitCategory(name: String, baseFirstUnit : String, baseSecondUnit: String, coef: Double) {
     private val _name = name
@@ -14,7 +15,6 @@ class UnitCategory(name: String, baseFirstUnit : String, baseSecondUnit: String,
     public fun addSecondSetUnit(unitName : String, coefToBase : Double){
         _secondUnits[unitName] = coefToBase
     }
-
     public fun getCategoryName(): String {
         return _name
     }
@@ -24,23 +24,37 @@ class UnitCategory(name: String, baseFirstUnit : String, baseSecondUnit: String,
     public fun getSecondUnits(): MutableSet<String> {
         return _secondUnits.keys
     }
-    public fun getFirstBase(unit : String) : Double? {
-        return _firstUnits[unit]
+    public fun getBase(unit : String) : Double? {
+        if(_firstUnits.containsKey(unit))
+            return _firstUnits[unit]
+        if(_secondUnits.containsKey(unit))
+            return _secondUnits[unit]
+        else
+            throw ArrayStoreException("There is no unit whit that name")
     }
-    public fun getSecondBase(unit: String) : Double? {
-        return _secondUnits[unit]
+    public fun getCoef(baseUnit : String) : Double {
+        if(_firstUnits.containsKey(baseUnit)){
+            return _baseCoef
+        }
+        if(_secondUnits.containsKey(baseUnit)){
+            return 1/_baseCoef
+        }
+        else
+            throw ArrayStoreException("There is no unit whit that name")
     }
-    public fun getCoef() : Double = _baseCoef
 
 }
 
-class UnitManager(){
+class UnitManager{
     private val _categories = mutableListOf<UnitCategory>()
 
     public fun getCategories()
     : List<String> {
         return _categories.map{it.getCategoryName()}
     }
+
+    public fun isEmpty() : Boolean = _categories.isEmpty()
+
     public fun getCategoriesFirstUnits(id : Int): List<String> {
         return _categories[id].getFirstUnits().toList()
     }
@@ -53,16 +67,11 @@ class UnitManager(){
     public fun translate(value: Double,
                          firstUnit : String,
                          secondUnit : String,
-                         catId : Int,
-                         mToIn : Boolean)
+                         catId : Int
+                         )
             : Double {
-        val result : Double
         val cat = _categories[catId]
-        result = if(mToIn){
-            value * cat.getFirstBase(firstUnit)!! * cat.getCoef() / cat.getSecondBase(secondUnit)!!
-        } else{
-            value * cat.getSecondBase(firstUnit)!! / cat.getCoef() / cat.getFirstBase(secondUnit)!!
-        }
+        val result = value * cat.getBase(firstUnit)!! * cat.getCoef(firstUnit) / cat.getBase(secondUnit)!!
         return result
     }
 }
