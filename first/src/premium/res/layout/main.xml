@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/fragmentText"
-        android:name="com.example.first.TextFragment"
+        android:name="com.example.first.TextFragmentPremium"
         android:layout_width="match_parent"
         android:layout_height="216dp"
         android:tag = "text"
@@ -15,7 +15,7 @@
 
     <fragment
         android:id="@+id/fragmentKeyboard"
-        android:name="com.example.first.KeyboardFragment"
+        android:name="com.example.first.KeyboardFragmentPremium"
         android:layout_width="match_parent"
         android:layout_height="365dp"
         android:tag = "keyboard"

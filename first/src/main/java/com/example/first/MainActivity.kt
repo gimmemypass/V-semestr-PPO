@@ -26,7 +26,6 @@ class MainActivity : AppCompatActivity(), KeyboardFragment.OnFunctionSelectedLis
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val viewModel: MyViewModel by viewModels()
         setContentView(R.layout.main)
         keyFragment = supportFragmentManager.findFragmentByTag("keyboard") as KeyboardFragment?
         textFragment = supportFragmentManager.findFragmentByTag("text") as TextFragment?

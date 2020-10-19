@@ -23,14 +23,14 @@ import kotlinx.android.synthetic.main.activity_main.buttonDelete
 import kotlinx.android.synthetic.main.activity_main.buttonTranslate
 import kotlinx.android.synthetic.main.keyboard.*
 
-class KeyboardFragment : Fragment(), View.OnClickListener {
+abstract class KeyboardFragment : Fragment(), View.OnClickListener {
     public interface OnFunctionSelectedListener{
         public fun OnSwapSelected()
         public fun OnTranslateSelected()
     }
-    private val viewModel : MyViewModel by activityViewModels()
+    protected val viewModel : MyViewModel by activityViewModels()
 
-    private var funListener : OnFunctionSelectedListener? = null
+    protected var funListener : OnFunctionSelectedListener? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -47,7 +47,6 @@ class KeyboardFragment : Fragment(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -58,45 +57,4 @@ class KeyboardFragment : Fragment(), View.OnClickListener {
         return inflater.inflate(R.layout.keyboard, null)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        val numberBtn = arrayOfNulls<Button>(10)
-        numberBtn[0] = button0
-        numberBtn[1] = button1
-        numberBtn[2] = button2
-        numberBtn[3] = button3
-        numberBtn[4] = button4
-        numberBtn[5] = button5
-        numberBtn[6] = button6
-        numberBtn[7] = button7
-        numberBtn[8] = button8
-        numberBtn[9] = button9
-        for (i in numberBtn.indices){
-            numberBtn[i]?.setOnClickListener(this)
-        }
-        buttonDot.setOnClickListener(this)
-        buttonDelete.setOnClickListener(this)
-
-        if(BuildConfig.FLAVOR.equals("premium"))
-            buttonSwap.setOnClickListener(this)
-
-        buttonTranslate.setOnClickListener(this)
-    }
-    override fun onAttach(activity: Activity) {
-        super.onAttach(activity)
-    }
-
-    override fun onClick(v: View?) {
-        when(v){
-            button0, button1, button2,
-            button3, button4, button5,
-            button6, button7, button8,
-            button9, buttonDot -> {
-                viewModel.appendEdit(v?.tag.toString())
-            }
-            buttonSwap -> funListener?.OnSwapSelected()
-            buttonTranslate -> funListener?.OnTranslateSelected()
-            buttonDelete -> viewModel.deleteCharacterEdit()
-        }
-    }
 }

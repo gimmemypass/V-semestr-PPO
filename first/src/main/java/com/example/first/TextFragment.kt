@@ -21,12 +21,12 @@ import kotlinx.android.synthetic.main.keyboard.*
 import kotlinx.android.synthetic.main.text_layout.*
 import kotlinx.android.synthetic.main.text_layout.noImeEditText
 
-class TextFragment : Fragment(), View.OnClickListener, AdapterView.OnItemSelectedListener {
+abstract class TextFragment : Fragment(), View.OnClickListener, AdapterView.OnItemSelectedListener {
    // private val model : SharedViewModel by activityViewModels()
-    private lateinit var clipboard : ClipboardManager
-    private lateinit var adapterCategory : ArrayAdapter<String>
-    private var adapters  = arrayOfNulls<ArrayAdapter<String>>(2)
-    private val viewModel: MyViewModel by activityViewModels()
+    protected lateinit var clipboard : ClipboardManager
+    protected lateinit var adapterCategory : ArrayAdapter<String>
+    protected var adapters  = arrayOfNulls<ArrayAdapter<String>>(2)
+    protected val viewModel: MyViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,28 +50,9 @@ class TextFragment : Fragment(), View.OnClickListener, AdapterView.OnItemSelecte
         })
         setSpinners()
         clipboard = activity?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        if(BuildConfig.FLAVOR.equals("premium")){
-            buttonEditCopy.setOnClickListener(this)
-            buttonTextCopy.setOnClickListener(this)
-        }
 
     }
     override fun onClick(v: View?) {
-        when(v) {
-            buttonTextCopy -> {
-                val clip: ClipData = ClipData.newPlainText("textField", textView.text.toString())
-                clipboard.setPrimaryClip(clip)
-                Toast.makeText(activity, textView.text.toString() + " copied", Toast.LENGTH_SHORT)
-                    .show()
-            }
-            buttonEditCopy -> {
-                val clip: ClipData =
-                    ClipData.newPlainText("editField", noImeEditText.text.toString())
-                clipboard.setPrimaryClip(clip)
-                Toast.makeText(activity, noImeEditText.text.toString() + " copied", Toast.LENGTH_SHORT)
-                    .show()
-            }
-        }
     }
 
     private fun setSpinners(){
@@ -113,14 +94,10 @@ class TextFragment : Fragment(), View.OnClickListener, AdapterView.OnItemSelecte
             }
         }
     }
-    public fun swap(){
-        val temp = spinnerFirstUnits.adapter
-        spinnerFirstUnits.adapter = spinnerSecondUnits.adapter
-        spinnerSecondUnits.adapter = temp
-        adapters[0]?.notifyDataSetChanged()
-        adapters[1]?.notifyDataSetChanged()
-    }
 
+    open fun swap(){
+
+    }
     public fun translate(){
         var value : Double = 0.0
         val text = noImeEditText.text.toString()
