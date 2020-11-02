@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="effort_rest">rest</string>
+    <string name="effor_hard">hard</string>
+    <string name="effor_calm" />
+</resources>

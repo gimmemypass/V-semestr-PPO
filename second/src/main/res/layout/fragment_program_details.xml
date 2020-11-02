@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ProgramDetailsFragment">
+
+    <TextView
+        android:id="@+id/text_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="textView"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/count_exercises"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="textView"
+        android:textSize="36sp" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="381dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="300dp"
+        android:backgroundTint="@color/colorAccent"
+        android:contentDescription="@string/add_word"
+        android:src="@drawable/ic_baseline_add_24" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/exercise_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/recyclerview_item_exercise"
+        />
+
+
+</LinearLayout>

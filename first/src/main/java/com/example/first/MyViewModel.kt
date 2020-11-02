@@ -1,7 +1,9 @@
 package com.example.first
 
+import android.widget.EditText
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import kotlinx.android.synthetic.main.text_layout.*
 
 class MyViewModel : ViewModel() {
     private var _textView : MutableLiveData<String> = MutableLiveData("");
@@ -32,6 +34,7 @@ class MyViewModel : ViewModel() {
             _editView.value = _editView.value?.substring(0, _editView.value!!.length - 1);
         }
     }
+
 
     init {
         var tempCat: UnitCategory = UnitCategory("distance", "mm", "in", 0.03937)
