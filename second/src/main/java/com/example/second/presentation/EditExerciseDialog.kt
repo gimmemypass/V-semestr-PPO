@@ -10,22 +10,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.example.second.Models.Exercise
 import com.example.second.R
+import com.jaredrummler.android.colorpicker.ColorPickerDialogListener
 
 class EditExerciseDialog(
     private var exercise: Exercise,
     private var listener: OnUpdated
-) : DialogFragment() {
-
+) : DialogFragment()
+{
     interface OnUpdated{
         fun onUpdated(exercise: Exercise)
-    }
-
-    fun setExercise(exercise : Exercise){
-        this.exercise = exercise
-    }
-
-    fun setListener(listener : OnUpdated){
-        this.listener = listener
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -45,4 +38,5 @@ class EditExerciseDialog(
         }
         return builder.create()
     }
+
 }

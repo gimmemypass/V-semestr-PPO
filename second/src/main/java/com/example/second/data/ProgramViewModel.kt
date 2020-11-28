@@ -24,4 +24,13 @@ class ProgramViewModel(application: Application) : AndroidViewModel(application)
         repo.insertProgram(program)
     }
 
+    fun updateProgram(program: TrainingProgram) = viewModelScope.launch(Dispatchers.IO){
+        repo.updateProgram(program)
+    }
+    fun deleteProgram(program: TrainingProgram) = viewModelScope.launch(Dispatchers.IO){
+        repo.deleteProgram(program)
+    }
+    fun deleteAllPrograms() = viewModelScope.launch(Dispatchers.IO){
+        repo.deleteAllPrograms()
+    }
 }

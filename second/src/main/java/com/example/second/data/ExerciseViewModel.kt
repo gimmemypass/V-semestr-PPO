@@ -20,17 +20,16 @@ class ExerciseViewModel(application: Application) : AndroidViewModel(application
         mutableProgramId.value = id
     }
 
-    fun insertExercise(exercise: Exercise) : Int {
-//        var id : Int = 0
-//        viewModelScope.launch(Dispatchers.IO) {
-//            id = (exerciseDao.insertExercise(exercise).toInt())
-//        }
-//        return id
-        return exerciseDao.insertExercise(exercise).toInt()
+    fun insertExercise(exercise: Exercise) = viewModelScope.launch(Dispatchers.IO) {
+            exerciseDao.insertExercise(exercise).toInt()
     }
 
     fun updateExercise(exercise: Exercise) = viewModelScope.launch(Dispatchers.IO){
         exerciseDao.updateExercise(exercise)
+    }
+
+    fun deleteExercise(exercise: Exercise) = viewModelScope.launch(Dispatchers.IO) {
+        exerciseDao.deleteExercise(exercise)
     }
 
 }

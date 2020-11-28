@@ -12,7 +12,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Database(
-    version = 6,
+    version = 8,
     entities = [TrainingProgram::class, Exercise::class, EffortType::class],
     exportSchema = false
 )
@@ -52,14 +52,13 @@ abstract class AppDatabase : RoomDatabase() {
             var program = TrainingProgram("Test", "#FF0000")
             var id = programDAO.insertProgram(program).toInt()
             var exercises : MutableList<Exercise> = mutableListOf()
-            exercises.add(Exercise(id, 3, "run", 10))
-            exercises.add(Exercise(id, 1, "break", 1))
+            exercises.add(Exercise(id, 3, "run", 10000))
+            exercises.add(Exercise(id, 1, "break", 15000))
             exerciseDAO.insertManyExercises(exercises)
-
             program = TrainingProgram("Test2", "#00FF00")
             id = programDAO.insertProgram(program).toInt()
             exercises = mutableListOf()
-            exercises.add(Exercise(id, 2, "run", 10))
+            exercises.add(Exercise(id, 2, "run", 10000))
             exerciseDAO.insertManyExercises(exercises)
 
             program = TrainingProgram("Test3", "#0000FF")

@@ -8,8 +8,8 @@ import java.io.Serializable
 
 @Entity
 data class TrainingProgram(
-    val title: String,
-    val color: String
+    var title: String,
+    var color: String
 
 ): Serializable
 {

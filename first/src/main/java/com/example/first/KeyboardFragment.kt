@@ -57,4 +57,25 @@ abstract class KeyboardFragment : Fragment(), View.OnClickListener {
         return inflater.inflate(R.layout.keyboard, null)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val numberBtn = arrayOfNulls<Button>(10)
+        numberBtn[0] = button0
+        numberBtn[1] = button1
+        numberBtn[2] = button2
+        numberBtn[3] = button3
+        numberBtn[4] = button4
+        numberBtn[5] = button5
+        numberBtn[6] = button6
+        numberBtn[7] = button7
+        numberBtn[8] = button8
+        numberBtn[9] = button9
+        for (i in numberBtn.indices) {
+            numberBtn[i]?.setOnClickListener(this)
+        }
+        buttonDot.setOnClickListener(this)
+        buttonDelete.setOnClickListener(this)
+        buttonTranslate.setOnClickListener(this)
+    }
+
 }

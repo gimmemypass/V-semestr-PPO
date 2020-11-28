@@ -14,5 +14,10 @@ class ViewUtils {
 
         fun getMinutesFromMs(ms : Int) = ms / 1000 / 60
         fun getSecondsFromMs(ms : Int) = ms / 1000 % 60
+
+        fun stringColorFromInt(int : Int) : String{
+            return String.format("#%06X", (0xFFFFFF and int))
+        }
+
     }
 }

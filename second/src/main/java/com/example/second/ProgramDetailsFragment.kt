@@ -2,28 +2,29 @@ package com.example.second
 
 import android.content.Context
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.second.Models.Exercise
-import com.example.second.Models.TrainingProgram
+import com.example.second.Models.ExerciseDetails
+import com.example.second.data.RunProgramViewModel
 import com.example.second.Models.TrainingProgramDetails
 import com.example.second.data.ExerciseViewModel
 import com.example.second.presentation.EditExerciseDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotlinx.android.synthetic.main.fragment_program_details.*
-import org.w3c.dom.Text
 
 
-class ProgramDetailsFragment : Fragment(), EditExerciseDialog.OnUpdated {
+class ProgramDetailsFragment :
+    Fragment(),
+    EditExerciseDialog.OnUpdated,
+    ExerciseListAdapter.OnItemSelected
+{
 
     private lateinit var mContext: Context
     private lateinit var exerciseViewModel : ExerciseViewModel
@@ -32,6 +33,9 @@ class ProgramDetailsFragment : Fragment(), EditExerciseDialog.OnUpdated {
     private lateinit var countExercises : TextView
     private lateinit var exerciseRecyclerView: RecyclerView
     private lateinit var addButton: FloatingActionButton
+    private lateinit var startButton: FloatingActionButton
+
+    private val runViewModel : RunProgramViewModel by activityViewModels()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -42,14 +46,11 @@ class ProgramDetailsFragment : Fragment(), EditExerciseDialog.OnUpdated {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_program_details, container, false)
         textTitle = view.findViewById(R.id.text_title)
         countExercises = view.findViewById(R.id.count_exercises)
         val program = arguments?.getSerializable(PROGMODEL) as TrainingProgramDetails
-        Toast.makeText(activity, program.trainingProgram.programId.toString() , Toast.LENGTH_SHORT).show()
         textTitle.text = program.trainingProgram.title
-        countExercises.text = program.exercises.size.toString()
         ///////recyclerView
         exerciseRecyclerView = view.findViewById(R.id.exercise_recyclerview)
         val adapter = ExerciseListAdapter(mContext)
@@ -58,17 +59,29 @@ class ProgramDetailsFragment : Fragment(), EditExerciseDialog.OnUpdated {
         exerciseViewModel = ViewModelProvider(this).get(ExerciseViewModel::class.java)
         exerciseViewModel.searchExercisesByProgramId(program.trainingProgram.programId)
         exerciseViewModel.exercises.observe(viewLifecycleOwner, Observer { exercises ->
-            exercises?.let {adapter.setExercises(it)}
+            exercises?.let {
+                runViewModel.setExercises(it)
+                adapter.setExercises(it)
+                countExercises.text = it.size.toString()
+            }
         })
         //////////////fab
         addButton = view.findViewById(R.id.fab)
         addButton.setOnClickListener{
-//            TODO("call modal view to create")
             val newExercise = Exercise(program.trainingProgram.programId, 0,"", 30000)
-            val id = exerciseViewModel.insertExercise(newExercise)
-            newExercise.exerciseId = id
             val dialog = EditExerciseDialog(newExercise, this)
             dialog.show(requireActivity().supportFragmentManager, "dialog")
+        }
+        startButton = view.findViewById(R.id.fab_start)
+        startButton.setOnClickListener{
+            runViewModel.setUpFragment()
+            runViewModel.loadSound(R.raw.notification)
+            val runFragment = RunProgramFragment.newInstance()
+            requireActivity().supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.root_layout, runFragment, "runProgramFragment")
+                .addToBackStack(null)
+                .commit()
         }
         return view
     }
@@ -88,6 +101,18 @@ class ProgramDetailsFragment : Fragment(), EditExerciseDialog.OnUpdated {
     }
 
     override fun onUpdated(exercise: Exercise) {
-        exerciseViewModel.updateExercise(exercise)
+        if(exercise.exerciseId == 0)
+            exerciseViewModel.insertExercise(exercise)
+        else
+            exerciseViewModel.updateExercise(exercise)
+    }
+
+    override fun onDeleteItemSelected(exercise: ExerciseDetails) {
+        exerciseViewModel.deleteExercise(exercise.exercise)
+    }
+
+    override fun onEditItemSelected(exercise: ExerciseDetails) {
+        val dialog = EditExerciseDialog(exercise.exercise, this)
+        dialog.show(requireActivity().supportFragmentManager, "dialog")
     }
 }

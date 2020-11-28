@@ -21,7 +21,7 @@ class EditExerciseView(context : Context, attrs: AttributeSet) : TableLayout(con
     private lateinit var name: EditText
 
     private var exercise: Exercise? = null
-    private var db = AppDatabase.buildDatabase(context, null)
+    private val db = AppDatabase.buildDatabase(context, null)
 
     override fun onFinishInflate() {
         super.onFinishInflate()

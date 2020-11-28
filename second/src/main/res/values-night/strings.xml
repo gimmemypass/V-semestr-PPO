@@ -3,4 +3,10 @@
     <string name="effort_rest">rest</string>
     <string name="effor_hard">hard</string>
     <string name="effor_calm" />
+    <string name="dark_mode">Dark Mode</string>
+    <string name="font_size">Font Size</string>
+    <string name="clear_data">Clear data</string>
+    <string name="language">Language</string>
+    <string name="play">Play</string>
+    <string name="stop">Stop</string>
 </resources>

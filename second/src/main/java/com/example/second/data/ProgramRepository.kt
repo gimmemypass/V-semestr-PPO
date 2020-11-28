@@ -12,5 +12,14 @@ class ProgramRepository(private val programDao : ProgramDAO) {
     suspend fun insertProgram(program : TrainingProgram){
         programDao.insertProgram(program)
     }
+    suspend fun updateProgram(program: TrainingProgram){
+        programDao.updateProgram(program)
+    }
+    suspend fun deleteProgram(program: TrainingProgram){
+        programDao.deleteProgram(program)
+    }
+    suspend fun deleteAllPrograms(){
+        programDao.deleteAll()
+    }
 
 }
